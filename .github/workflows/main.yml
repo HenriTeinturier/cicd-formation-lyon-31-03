@@ -1,0 +1,11 @@
+name: "Mon premiere workflow"
+
+on: push
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello, world"
+    
+    
