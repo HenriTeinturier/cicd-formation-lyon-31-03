@@ -1,0 +1,25 @@
+name: name
+on: push
+
+env:
+  VAR_FROM_WORKFLOW: "var from workflow"
+
+jobs:
+  tests-variables:
+    env:
+      VAR_FROM_JOB: "var from job"
+    runs-on: ubuntu-latest
+    steps:
+      - name: les variables
+        env:
+          VAR_FROM_STEP: ${{ env.VAR_FROM_WORKFLOW }}
+          VAR_FROM_CONTEXT: ${{ github.ref}}
+        run: |
+          echo "VAR_FROM_WORKFLOW: $VAR_FROM_WORKFLOW"
+          echo "VAR_FROM_JOB: $VAR_FROM_JOB"
+          echo "VAR_FROM_STEP: $VAR_FROM_STEP"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF: ${{ github.ref }}"
+          echo "Variable de projet: ${{ vars.VAR_PROJECT }}"
+          echo "Secret de projet: ${{ secrets.SECRET_PROJECT }}"
+          echo "VAR_FROM_CONTEXT: $VAR_FROM_CONTEXT"
