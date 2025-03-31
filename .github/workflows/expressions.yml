@@ -7,3 +7,5 @@ jobs:
     steps:
       - run: echo main = top ? ${{ 'main' ==  github.ref }}
       - run: echo la branche actuelle contient elle main ? ${{ contains(github.ref, 'main')}}
+      - run: exit 1
+      - run: echo STEP 1
