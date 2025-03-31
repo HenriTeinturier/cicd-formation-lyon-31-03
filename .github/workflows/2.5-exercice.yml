@@ -1,0 +1,31 @@
+name: Test création fichier
+
+on: push
+
+jobs:
+  test-creation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vérifier l’utilisateur connecté
+        run: whoami
+
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Créer un répertoire dans le dépôt
+        run: mkdir mon_dossier
+
+      - name: Ajouter un fichier texte dans le répertoire
+        run: echo "Ceci est un fichier de test" > mon_dossier/fichier.txt
+
+      - name: Lister les fichiers à la racine et dans le répertoire
+        run: ls && ls mon_dossier
+
+  verifier-persistance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer à nouveau le dépôt
+        uses: actions/checkout@v4
+
+      - name: Lister les fichiers pour voir si le répertoire est toujours là
+        run: ls
