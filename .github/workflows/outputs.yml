@@ -12,6 +12,8 @@ jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
+    outputs:
+      build-and-test: "L'execution du job build-and-test c'est bien passé"
 
     steps:
       - name: Checkout repository
@@ -30,7 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test e2e
-        run: echo "e2e ok"
+        id: test-e2e
+        run: |
+          echo "e2e ok"
+          echo "confirmation=Je confirme e2e c'est bien passé" >> $GITHUB_OUTPUT
+    outputs:
+      test-e2e: ${{ steps.test-e2e.outputs.confirmation }}
 
   deploy:
     name: Deploy
@@ -38,6 +45,11 @@ jobs:
     needs: [build-and-test, test-e2e]
 
     steps:
+      - name: test e2e rapport
+        run: |
+          echo "build-and-test-output : ${{ needs.build-and-test.outputs.build-and-test }}"
+          echo "test-e2e-output : ${{ needs.test-e2e.outputs.test-e2e }}"
+
       - name: Deploy to Development
         if: github.ref == 'refs/heads/dev'
         run: echo "🚀 Deploying to DEVELOPMENT environment"
