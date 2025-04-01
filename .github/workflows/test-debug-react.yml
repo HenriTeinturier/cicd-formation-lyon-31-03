@@ -21,13 +21,13 @@ jobs:
 
       - name: Run Eslint
         run: npm run lint
-        continue-on-error: true
+        # continue-on-error: true
         id: eslint
 
       - name: Display ESLint success
         if: steps.eslint.outcome == 'success'
         run: |
-          echo "::notice::ESLint a réussi"
+          echo "::debug::ESLint a réussi"
 
       - name: Display Eslint errors
         if: steps.eslint.outcome == 'failure'
