@@ -1,0 +1,59 @@
+name: "Enquête - Vol au Supermarché"
+
+on: push
+
+jobs:
+  policier-scene:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Analyse scène de crime
+        run: echo "Le policier examie la caisse enregistreurse"
+      - name: Prélèvement emprinte
+        run: echo "Emprintet prélevée sur la caisse"
+    outputs:
+      empreinte: "Empreinte digitale trouvée sur la caisee"
+
+  policier-video:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération vidéos
+        id: surveillance
+        run: echo "résultat=Séquence vidéo 22h15-22h45 récupérée" >> $GITHUB_OUTPUT
+    outputs:
+      video: ${{ steps.surveillance.outputs.resultat }}
+
+  detective:
+    runs-on: ubuntu-latest
+    needs: [policier-scene, policier-video]
+    steps:
+      - name: consultation indices
+        run: |
+          echo "Consultation empreinte: ${{ needs.policier-scene.outputs.empreinte }}"
+          echo "Consultation vidéo: ${{ needs.policier-video.outputs.video }}"
+      - name: Analyse empreinte
+        run: echo "ANALYSE EMPREINTE=Empreinte correspond à un suspect connu" >> $GITHUB_ENV
+      - name: Analyse vidéo
+        run: echo "ANALYSE VIDEO=Suspect identifié sur la vidéo à 22h30" >> $GITHUB_ENV
+      - name: Rapport final
+        id: analyse
+        run: |
+          echo "conclusion=${ANALYSE EMPREINTE} ${ANALYSE VIDEO}, suspect identifié!" >> $GITHUB_OUTPUT
+          echo "lieu!42 Avenue du commerce, Supermarché Superprix" >>$GITHUB_OUTPUT
+          echo "autorisation=true" >> $GITHUB_OUTPUT
+    outputs:
+      rapport: ${{ steps.analyse.outputs.rapport }}
+      lieu_arrestation: ${{ steps.analyse.outputs.lieu_arrestation }}
+      autorisatio_arrestation: ${{ steps.analyse.outputs.autorisation }}
+
+  police:
+    runs-on: ubuntu-latest
+    needs: [detective]
+    steps:
+      - name: Lecture rapport
+        run: echo "${{ needs.detective.outputs.rapport }}"
+      - name: Enquête sans suite
+        if: ${{ needs.detective.outputs.autorisation_arrestation != 'true' }}
+        run: echo "Pas de suspect trouvé"
+      - name: Procéder à l'arrestation
+        if: ${{ needs.detective.outputs.autorisation_arrestation == 'true' }}
+        run: echo "Le suspect est arrêté à ${{ needs.detective.outputs.lieu_arrestation }}"
