@@ -2,10 +2,34 @@ name: expressions
 on: push
 
 jobs:
-  expressions-test:
+  job-with-always:
     runs-on: ubuntu-latest
     steps:
-      - run: echo main = top ? ${{ 'main' ==  github.ref }}
-      - run: echo la branche actuelle contient elle main ? ${{ contains(github.ref, 'main')}}
       - run: exit 1
-      - run: echo STEP 1
+      - if: always()
+        run: echo "Cette étape ne s'exécutera PAS car le job s'arrête après l'erreur"
+
+  job-with-continue:
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 1
+        continue-on-error: true
+      - run: echo "Étape 1 - S'exécutera malgré l'erreur précédente"
+      - if: failure()
+        run: echo "Étape 2 - S'exécutera car il y a eu une erreur"
+      - if: success()
+        run: echo "Étape 3 - Ne s'exécutera pas car il y a eu une erreur"
+      - run: echo "Étape 4 - S'exécutera aussi"
+
+  job-with-needs:
+    needs: job-with-always
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Ce job s'exécutera toujours, même si job-with-always échoue"
+
+  job-with-needs-without-always:
+    needs: job-with-always
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Ce job s'exécutera uniquement si job-with-always est réussi"
