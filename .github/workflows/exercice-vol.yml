@@ -31,17 +31,17 @@ jobs:
           echo "Consultation empreinte: ${{ needs.policier-scene.outputs.empreinte }}"
           echo "Consultation vidéo: ${{ needs.policier-video.outputs.video }}"
       - name: Analyse empreinte
-        run: echo "ANALYSE EMPREINTE=Empreinte correspond à un suspect connu" >> $GITHUB_ENV
+        run: echo "ANALYSE_EMPREINTE=Empreinte correspond à un suspect connu" >> $GITHUB_ENV
       - name: Analyse vidéo
-        run: echo "ANALYSE VIDEO=Suspect identifié sur la vidéo à 22h30" >> $GITHUB_ENV
+        run: echo "ANALYSE_VIDEO=Suspect identifié sur la vidéo à 22h30" >> $GITHUB_ENV
       - name: Rapport final
         id: analyse
         run: |
-          echo "conclusion=${ANALYSE_EMPREINTE} ${ANALYSE_VIDEO}, suspect identifié!" >> $GITHUB_OUTPUT
-          echo "lieu!42 Avenue du commerce, Supermarché Superprix" >>$GITHUB_OUTPUT
-          echo "autorisation=true" >> $GITHUB_OUTPUT
+          echo "conclusion=${ANALYSE_EMPREINTE} ${ANALYSE_VIDEO}, suspect identifié!" >> "$GITHUB_OUTPUT"
+          echo "arrestation=42 Avenue du commerce, Supermarché Superprix" >> "$GITHUB_OUTPUT"
+          echo "autorisation=true" >> "$GITHUB_OUTPUT"
     outputs:
-      rapport: ${{ steps.analyse.outputs.rapport }}
+      rapport: ${{ steps.analyse.outputs.conclusion }}
       lieu_arrestation: ${{ steps.analyse.outputs.lieu_arrestation }}
       autorisatio_arrestation: ${{ steps.analyse.outputs.autorisation }}
 
