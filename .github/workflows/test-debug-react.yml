@@ -1,0 +1,37 @@
+name: lint
+
+on: push
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Pour faire notre test on récupère le code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # On installe node
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+
+      # On installe les dépendances
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Eslint
+        run: npm run lint
+        continue-on-error: true
+        id: eslint
+
+      - name: Display ESLint success
+        if: steps.eslint.outcome == 'success'
+        run: |
+          echo "::notice::ESLint a réussi"
+
+      - name: Display Eslint errors
+        if: steps.eslint.outcome == 'failure'
+        run: |
+          echo "::group::Eslint Erros"
+          echo "::warning file=scr/App.tsx,line=6,title=titre"::unused variable
+          echo "::endgroup::"
