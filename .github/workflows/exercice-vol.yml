@@ -43,7 +43,7 @@ jobs:
     outputs:
       rapport: ${{ steps.analyse.outputs.conclusion }}
       lieu_arrestation: ${{ steps.analyse.outputs.lieu_arrestation }}
-      autorisatio_arrestation: ${{ steps.analyse.outputs.autorisation }}
+      autorisation_arrestation: ${{ steps.analyse.outputs.autorisation }}
 
   police:
     runs-on: ubuntu-latest
