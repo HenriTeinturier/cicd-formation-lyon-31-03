@@ -37,7 +37,7 @@ jobs:
       - name: Rapport final
         id: analyse
         run: |
-          echo "conclusion=${ANALYSE EMPREINTE} ${ANALYSE VIDEO}, suspect identifié!" >> $GITHUB_OUTPUT
+          echo "conclusion=${ANALYSE_EMPREINTE} ${ANALYSE_VIDEO}, suspect identifié!" >> $GITHUB_OUTPUT
           echo "lieu!42 Avenue du commerce, Supermarché Superprix" >>$GITHUB_OUTPUT
           echo "autorisation=true" >> $GITHUB_OUTPUT
     outputs:
