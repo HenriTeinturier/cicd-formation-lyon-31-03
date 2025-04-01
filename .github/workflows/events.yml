@@ -1,0 +1,11 @@
+name: Events
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo JOB DONE
