@@ -8,6 +8,8 @@ on:
 jobs:
   permissions-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - run: |
           echo 123 > test.txt
