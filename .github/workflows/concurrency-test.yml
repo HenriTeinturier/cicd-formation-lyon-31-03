@@ -1,0 +1,16 @@
+name: Concurrency Test
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: "concurrency-test"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo workflow démarre
+      - run: sleep 60
+      - run: echo workflow terminé
