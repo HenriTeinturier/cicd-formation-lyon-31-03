@@ -1,0 +1,14 @@
+name: production workflow
+on:
+  push:
+    branches: main
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://mon-application.fr
+    steps:
+      - run: |
+          echo Deploy to production
