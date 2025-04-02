@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Hello, world!"
-          echo "GITHUB_TOKEN: $GITHUB_TOKEN"
-          echo "secrets github: ${{ secrets.GITHUB_TOKEN }}"
+          echo 123 > test.txt
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add test.txt
+          git commit -m "Add test.txt"
+          git push origin main
