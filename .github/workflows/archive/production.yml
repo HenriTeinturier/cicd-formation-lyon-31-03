@@ -7,13 +7,8 @@ jobs:
   deploy-production:
     runs-on: ubuntu-latest
     environment:
-      name: staging
-      url: https://mon-application.fr
+      name: production
+      url: vars.DATABASE_URL
     steps:
       - run: |
           echo Deploy to production
-          echo "secret password" ${{ secrets.DATABASE_PASSWORD }}
-          echo "DATABASE_URL" ${{ vars.DATABASE_URL }}
-
-# lien vers environnement
-# https://github.com/<user_Name>/>repo_name>/deployments/<environment_name>
