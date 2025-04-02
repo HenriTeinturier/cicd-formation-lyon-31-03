@@ -33,11 +33,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: build
           path: ./build
-      - run: |
-          ls
-          ls ./build
+      - name: Deploy to github Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ./build
+          clean: true
