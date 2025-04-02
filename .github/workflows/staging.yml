@@ -1,10 +1,10 @@
-name: production workflow
+name: staging workflow
 on:
   push:
     branches: staging
 
 jobs:
-  deploy-production:
+  deploy-staging:
     runs-on: ubuntu-latest
     environment:
       name: staging
@@ -12,6 +12,8 @@ jobs:
     steps:
       - run: |
           echo Deploy to production
+          echo "DATABASE_URL" ${{ vars.DATABASE_URL }}
+          echo "secret password" ${{ secrets.DATABASE_PASSWORD }}
 
 # lien vers environnement
 # https://github.com/<user_Name>/>repo_name>/deployments/<environment_name>
