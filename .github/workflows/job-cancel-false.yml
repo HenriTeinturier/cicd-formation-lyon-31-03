@@ -1,4 +1,4 @@
-name: Concurrency Test
+name: Job Cancel False
 
 on:
   workflow_dispatch:
