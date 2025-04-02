@@ -9,6 +9,7 @@ jobs:
   matrix-test:
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 2
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [22, 24]
@@ -20,10 +21,10 @@ jobs:
         #   - os: windows-latest
         #     node-version: 24
         #     architecture: x86_64
-        exclude:
-          - os: macos-latest
-            node-version: 24
-          - os: windows-latest
+        # exclude:
+        #   - os: macos-latest
+        #     node-version: 24
+        #   - os: windows-latest
 
     steps:
       - run: |
