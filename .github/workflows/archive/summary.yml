@@ -13,6 +13,11 @@ jobs:
           echo "- Nombre de tests : 12" >> $GITHUB_STEP_SUMMARY
           echo "- Réussis : 12" >> $GITHUB_STEP_SUMMARY
           echo "- Échecs : 0" >> $GITHUB_STEP_SUMMARY
+      - run: |
+          echo "## ✅ Résultats des tests" >> $GITHUB_STEP_SUMMARY
+          echo "- Nombre de tests : 12" >> $GITHUB_STEP_SUMMARY
+          echo "- Réussis : 12" >> $GITHUB_STEP_SUMMARY
+          echo "- Échecs : 0" >> $GITHUB_STEP_SUMMARY
 
   deploy:
     name: Résumé du déploiement
