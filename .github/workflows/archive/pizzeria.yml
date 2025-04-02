@@ -1,0 +1,76 @@
+name: PizzaCI - Système de Gestion Pizzeria
+
+on:
+  workflow_dispatch: # Déclenchement manuel depuis l'interface GitHub
+    inputs: # Définition des paramètres d'entrée
+      nom_client: # Premier paramètre : nom du client
+        description: "Nom du client"
+        required: true # Le workflow ne pourra pas être lancé sans ce paramètre
+      pizzas: # Second paramètre : liste des pizzas
+        description: | # Description sur plusieurs lignes avec |
+          Liste des pizzas au format JSON. Attention aux points importants:
+          - Utilisez des guillemets doubles
+          - Entourez la liste avec []
+          Exemple: ["margherita","reine","calzone"]
+        required: true # Le workflow ne pourra pas être lancé sans ce paramètre
+
+jobs:
+  reception-commande:
+    name: Reception de Commande
+    runs-on: ubuntu-latest
+    steps:
+      - name: Accueil client
+        run: |
+          echo "Bonjour ${{ github.event.inputs.nom_client }}"
+          echo "Votre commande avec les pizzas ${{ github.event.inputs.pizzas }} a bien été reçue."
+    outputs:
+      pizzas: ${{ github.event.inputs.pizzas }} # On transmet la liste des pizzas
+
+  cuisine:
+    needs: reception-commande
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pizza: ${{ fromJSON(needs.reception-commande.outputs.pizzas) }}
+        taille: ["L", "XL"]
+        include:
+          # Pizza bonus en taille L
+          - pizza: "pizza-dessert"
+            taille: "L"
+    steps:
+      - name: Préparation
+        run: echo "Préparation pizza ${{ matrix.pizza }} en taille ${{ matrix.taille }}"
+
+  livraison:
+    needs: cuisine
+    runs-on: ubuntu-latest
+    concurrency:
+      group: zone-livraison # Toutes les livraisons utilisent le même groupe
+      cancel-in-progress: true # Annule la livraison en cours si une nouvelle arrive
+    steps:
+      - name: Préparation livraison
+        run: |
+          echo "Préparation de la livraison pour ${{ github.event.inputs.nom_client }}"
+          echo "Pizzas à livrer : ${{ github.event.inputs.pizzas }}"
+
+      - name: Temps de livraison
+        run: |
+          echo "Le livreur est en route..."
+          sleep 60  
+          echo "Livraison effectuée !"
+
+  reclamation:
+    needs: livraison
+    runs-on: ubuntu-latest
+    # Permissions spécifiques pour ce job
+    permissions:
+      issues: write # Seule permission nécessaire pour créer des issues
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Création réclamation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Réclamation client" --body "🔥 Pizzas livrées froides !"

@@ -1,0 +1,21 @@
+name: check-event-type
+
+on:
+  issues:
+    types:
+      - closed
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  state_event_type:
+    runs-on: ubuntu-latest
+    steps:
+      - name: If issue closed
+        if: github.event.issue
+        run: echo "🟢 Une issue a été fermée"
+
+      - name: If PR closed
+        if: github.event.pull_request
+        run: echo "🔵 Une pull request a été fermée"

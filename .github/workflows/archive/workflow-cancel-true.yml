@@ -1,0 +1,17 @@
+name: workflow-cancel-true
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: "concurrency-test"
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo workflow démarre
+      - run: sleep 30
+      - run: echo workflow terminé

@@ -1,0 +1,17 @@
+name: workflow commands
+on: push
+
+jobs:
+  commandes-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "::notice::Un message d'info"
+          echo "::warning::Un warning"
+          echo "::error::Une erreur"
+          echo "::group::Un groupe"
+          echo 1
+          echo 2
+          echo 3
+          echo 4
+          echo ::endgroup::

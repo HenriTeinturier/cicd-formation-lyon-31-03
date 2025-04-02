@@ -1,54 +1,28 @@
-# React + TypeScript + Vite
+# Formation CI/CD - Lyon 31/03/2025
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Support de cours
+- [Support de cours complet](https://docs.google.com/presentation/d/1ovxs_jptS9gzd22K882PcSbmva6_p8T2/edit#slide=id.g34650bd1af6_0_3)
 
-Currently, two official plugins are available:
+## Sommaire des exercices
+1. [Exercice 1.4 - YAML](documents/exercices/1.4%20Yaml/)
+2. [Exercice 2.5 - Premier Workflow](documents/exercices/2.5%20Premiere%20workflow/)
+3. [Exercice 3.6 - Premier Workflow CI/CD](documents/exercices/3.6%20Premiere%20workflow%20CICD/)
+4. [Exercice 3.8 - Enquête policière](documents/exercices/3.8%20Enquête%20policière/)
+5. [Exercice 4.5 - Pizzeria](documents/exercices/4.5%20Pizzeria/)
+6. [Exercice 4.8 - Mini application](documents/exercices/4.8%20Mini%20application/)
+7. [Exercice 5.3 - Container Docker PostgreSQL](documents/exercices/5.3%20Container%20Docker%20PostgreSql/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Ressources supplémentaires
 
-## Expanding the ESLint configuration
+### Documentation GitHub Actions
+- [Documentation officielle GitHub Actions (FR)](https://docs.github.com/fr/actions)
+- [Workflow syntaxe GitHub Actions (FR)](https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions)
+- [Variables d'environnement GitHub Actions (FR)](https://docs.github.com/fr/actions/using-workflows/environment-variables)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### YAML
+- [Cheatsheet YAML](https://quickref.me/yaml.html)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### DevOps et CI/CD
+- [Guide DevOps Microsoft (FR)](https://learn.microsoft.com/fr-fr/devops/)
+- [Introduction au CI/CD (FR)](https://www.redhat.com/fr/topics/devops/what-is-ci-cd)
+- [Bonnes pratiques CI/CD (FR)](https://www.ovhcloud.com/fr/blog/bonnes-pratiques-ci-cd/)

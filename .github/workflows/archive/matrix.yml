@@ -1,0 +1,32 @@
+name: matrix
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  matrix-test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 2
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [22, 24]
+        # include:
+        #   - os: macos-latest
+        #     node-version: 24
+        #   - os: windows-latest
+        #     node-version: 26
+        #   - os: windows-latest
+        #     node-version: 24
+        #     architecture: x86_64
+        # exclude:
+        #   - os: macos-latest
+        #     node-version: 24
+        #   - os: windows-latest
+
+    steps:
+      - run: |
+          echo "Running on ${{ matrix.os }} with Node.js ${{ matrix.node-version }}"
+          echo "Architecture: ${{ matrix.architecture }}"

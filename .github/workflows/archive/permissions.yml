@@ -1,0 +1,21 @@
+name: Permissions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  permissions-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo 123 > test.txt
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add test.txt
+          git commit -m "Add test.txt"
+          git push origin main
