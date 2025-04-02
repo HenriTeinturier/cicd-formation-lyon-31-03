@@ -1,0 +1,32 @@
+name: jobs test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  with-concurrency:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: jobs-concurrency
+      cancel-in-progress: true
+    steps:
+      - name: Début du workflow
+        run: echo "🚀 Workflow démarré"
+
+      - name: Attente de 2 minutes
+        run: sleep 120
+
+      - name: Fin du workflow
+        run: echo "✅ Workflow terminé"
+
+  without-concurrency:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Début du workflow
+        run: echo "🚀 Workflow démarré"
+
+      - name: Attente de 2 minutes
+        run: sleep 120
+
+      - name: Fin du workflow
+        run: echo "✅ Workflow terminé"
