@@ -1,0 +1,12 @@
+name: Test Artifact
+on: push
+
+jobs:
+  test-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 123 > text.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: myfirstartifact
+          path: ./text.txt
