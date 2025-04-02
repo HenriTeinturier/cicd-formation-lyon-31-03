@@ -12,14 +12,18 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [22, 24]
-        include:
+        # include:
+        #   - os: macos-latest
+        #     node-version: 24
+        #   - os: windows-latest
+        #     node-version: 26
+        #   - os: windows-latest
+        #     node-version: 24
+        #     architecture: x86_64
+        exclude:
           - os: macos-latest
             node-version: 24
           - os: windows-latest
-            node-version: 26
-          - os: windows-latest
-            node-version: 24
-            architecture: x86_64
 
     steps:
       - run: |
