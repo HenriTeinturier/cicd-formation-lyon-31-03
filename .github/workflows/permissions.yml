@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
       - run: |
           echo 123 > test.txt
           git config --global user.email "action@github.com"
