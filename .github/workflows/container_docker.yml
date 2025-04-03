@@ -1,0 +1,21 @@
+name: Container Docker
+
+on: push
+
+jobs:
+  classique:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "Job classique"
+          echo "node -v: $(node -v)"
+  avec-container:
+    runs-on: ubuntu-latest
+    container:
+      image: node:22
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "Job avec container"
+          echo "node -v: $(node -v)"
