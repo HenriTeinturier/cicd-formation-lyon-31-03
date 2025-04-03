@@ -14,8 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:22
+      env:
+        NODE_ENV: "production"
+      volumes:
+        - my_volume:/app/temp
     steps:
       - uses: actions/checkout@v4
       - run: |
           echo "Job avec container"
           echo "node -v: $(node -v)"
+          echo "NODE_ENV: $NODE_ENV"
+      - run: |
+          echo "Hello from Volume" > /app/temp/hello.txt
+
+      - run: |
+          cat /app/temp/hello.txt
