@@ -1,0 +1,30 @@
+name: Services
+on: push
+
+jobs:
+  test-services:
+    runs-on: ubuntu-latest
+    container:
+      image: node:22-alpine
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    # REMPLACEMENT DES LOCALHOST PAR REDIS
+    # MODIFICATION DE LA COMMANDE D'INSTALLATION POUR REDIS-CLI
+    steps:
+      - name: installation redis-cli
+        run: apk add --no-cache redis
+      - run: |
+          echo 'test connexion' $(redis-cli -h redis -p 6379 PING)
+          redis-cli -h redis SET user:1 '{"id":1,"name":"Henri"}'
+          redis-cli -h redis SET user:2 '{"id":2,"name":"Alice"}'
+          echo "user 1: $(redis-cli -h redis GET user:1)"
+          echo "user 2: $(redis-cli -h redis GET user:2)"
