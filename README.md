@@ -12,6 +12,12 @@
 6. [Exercice 4.8 - Mini application](documents/exercices/4.8%20Mini%20application/)
 7. [Exercice 5.3 - Container Docker PostgreSQL](documents/exercices/5.3%20Container%20Docker%20PostgreSql/)
 
+## Application de support
+Pour l'exercice 4.8 (Mini application), vous pouvez utiliser cette [application TodoList](https://github.com/HenriTeinturier/cicd-formation-lyon-31-03-todolist) comme support si vous avez besoin d'aide pour créer rapidement une application. Cette application React est déjà configurée avec :
+- Tests unitaires (Vitest + React Testing Library)
+- Configuration ESLint
+- Structure de projet complète
+
 ## Ressources supplémentaires
 
 ### Documentation GitHub Actions
