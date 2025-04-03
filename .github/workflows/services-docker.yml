@@ -8,9 +8,6 @@ jobs:
       redis:
         image: redis:latest
         ports:
-	        # on expose les ports pour envoyer 
-	        #localhost:6379 
-	        #vers le port 6379 de notre service.
           - 6379:6379
         options: >-
           --health-cmd "redis-cli ping"
@@ -23,12 +20,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y redis-tools
       - run: |
-          # Pas besoin de préciser le port car le 6379 est le port par default 
           echo 'test connexion' $(redis-cli -h localhost PING)
-          # Ajout de données dans redis
-          # -h pour host
           redis-cli -h localhost SET user:1 '{"id":1,"name":"Henri"}'
           redis-cli -h localhost SET user:2 '{"id":2,"name":"Alice"}'
-          # Récupération des données
           echo "user 1: $(redis-cli -h localhost GET user:1)"
           echo "user 2: $(redis-cli -h localhost GET user:2)"
