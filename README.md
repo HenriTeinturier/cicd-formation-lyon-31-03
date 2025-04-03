@@ -18,6 +18,22 @@ Pour l'exercice 4.8 (Mini application), vous pouvez utiliser cette [application 
 - Configuration ESLint
 - Structure de projet complète
 
+### Projet avancé CI/CD
+Pour les chapitres avancés du cours, nous utiliserons une application complète avec différentes configurations :
+
+#### Base de départ
+[Projet1-cicd](https://github.com/HenriTeinturier/Projet1-cicd) : Application Vue.js avec :
+- Frontend : Vue.js + Vitest (tests unitaires) + Cypress (tests E2E)
+- Backend : Node.js + Express + MongoDB
+- Déploiement sur VPS
+
+#### Solutions finales
+1. [Projet1-cicd-final](https://github.com/HenriTeinturier/projet1-cicd-final) : Version avec déploiement simple sur VPS
+2. [Projet2-cicd-final](https://github.com/HenriTeinturier/projet2-cicd-final) : Version avancée avec :
+   - Nginx en reverse proxy
+   - Configuration Docker
+   - Déploiement conteneurisé
+
 ## Ressources supplémentaires
 
 ### Documentation GitHub Actions
