@@ -12,6 +12,7 @@
 6. [Exercice 4.8 - Mini application](documents/exercices/4.8%20Mini%20application/)
 7. [Exercice 5.3 - Container Docker PostgreSQL](documents/exercices/5.3%20Container%20Docker%20PostgreSql/)
 8. [Exercice 7.8 - Workflow Réutilisable](documents/exercices/7.8_Workflow_reutilisable/)
+9. [Exercice 7.10 - Action Réutilisable](documents/exercices/7.10_action_reutilisation/)
 
 ## Application de support
 Pour l'exercice 4.8 (Mini application), vous pouvez utiliser cette [application TodoList](https://github.com/HenriTeinturier/cicd-formation-lyon-31-03-todolist) comme support si vous avez besoin d'aide pour créer rapidement une application. Cette application React est déjà configurée avec :

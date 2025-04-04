@@ -1,0 +1,120 @@
+name: CI/CD workflow
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-tests-backend:
+    name: ${{ matrix.name }}
+    strategy:
+      matrix:
+        include:
+          - name: verify code backend
+            run-lint: true
+            run-audit: false
+            run-tests: false
+            codecov-upload: false
+          - name: Verify vulnerabilities backend
+            run-lint: false
+            run-audit: true
+            run-tests: false
+            codecov-upload: false
+          - name: tests unitaires backend
+            run-lint: false
+            run-audit: false
+            run-tests: true
+            codecov-upload: true
+      fail-fast: true
+    uses: ./.github/workflows/check-test.yml
+    with:
+      working-directory: ./server
+      run-lint: ${{ matrix.run-lint }}
+      run-audit: ${{ matrix.run-audit }}
+      run-tests: ${{ matrix.run-tests }}
+      codecov-upload: ${{ matrix.codecov-upload }}
+    secrets:
+      codecov-token: ${{ secrets.CODECOV_TOKEN }}
+
+  check-frontend:
+    name: tests frontend
+    uses: ./.github/workflows/check-test.yml
+    with:
+      working-directory: ./client
+      run-lint: true
+      run-audit: true
+      run-tests: false
+      codecov-upload: false
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: check-frontend
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "./client/package-lock.json"
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application frontend
+        run: npm run build
+      - name: Upload build frontend
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-frontend
+          path: ./client/dist
+
+  test-e2e-frontend:
+    needs: ["build-frontend", "check-tests-backend"]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chrome, firefox, edge]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - name: Install dependencies
+        run: |
+          cd server
+          npm ci
+      - name: Download build frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: build-frontend
+          path: ./client/dist
+      - name: Start backend
+        run: |
+          cd server
+          npm start &
+      - name: Start e2e tests
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: client
+          browser: ${{ matrix.browser }}
+          start: npm run preview
+          wait-on: http://localhost:4173
+          wait-on-timeout: 60
+          config: baseUrl=http://localhost:4173
+
+  deploy:
+    needs: ["test-e2e-frontend"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "deploiement à venir"

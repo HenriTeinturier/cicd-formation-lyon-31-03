@@ -1,0 +1,70 @@
+name: Check Code Reusable Workflow
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        required: true
+        type: string
+        description: "Répertoire de travail (client ou server)"
+      run-lint:
+        required: false
+        type: boolean
+        default: false
+        description: "Exécuter la vérification du code"
+      run-audit:
+        required: false
+        type: boolean
+        default: false
+        description: "Vérifier les vulnérabilités"
+      run-tests:
+        required: false
+        type: boolean
+        default: false
+        description: "Exécuter les tests"
+      codecov-upload:
+        required: false
+        type: boolean
+        default: false
+        description: "Uploader les rapports de couverture vers Codecov"
+    secrets:
+      codecov-token:
+        required: false
+        description: "Token Codecov pour l'upload des rapports"
+
+jobs:
+  check-code:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "${{ inputs.working-directory }}/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Vérification du code
+        if: ${{ inputs.run-lint }}
+        run: npm run lint
+
+      - name: Vérification des vulnérabilités
+        if: ${{ inputs.run-audit }}
+        run: npm audit --production --audit-level=critical
+
+      - name: Exécution des tests
+        if: ${{ inputs.run-tests }}
+        run: npm run test:ci
+
+      - name: Upload coverage reports to Codecov
+        if: ${{ inputs.codecov-upload }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.codecov-token }}
