@@ -1,0 +1,11 @@
+name: Injection Script
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          titre=${{ github.event.head_commit.message }}
+          echo Hello world !
+          echo $titre
