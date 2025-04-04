@@ -1,0 +1,43 @@
+name: Test PostgreSQL personnalisé
+
+on: push
+
+jobs:
+  test-postgres:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: henriteinturier/postgres-init:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        options: >-
+          --health-cmd "pg_isready"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: 🛠️ Installer le client PostgreSQL (psql)
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Lister les utilisateurs
+        run: psql -h localhost -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT * FROM users;"
+        env:
+          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+      - name: save bdd
+        run: |
+          mkdir -p dumps
+          docker exec ${{ job.services.db.id }} pg_dump -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} > dumps/dump.sql
+        env:
+          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      - name: upload dump bdd
+        uses: actions/upload-artifact@v4
+        with:
+          name: dump-postgres
+          path: dumps/dump.sql
